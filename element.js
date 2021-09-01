@@ -1,34 +1,51 @@
-export function create(type, attributes) {
-    try{
-        if(type === ''){throw new Error("empty element is'nt allowed")}
-        let newlyCreatedElement = document.createElement(type);
-        for (let key in attributes){
-            newlyCreatedElement.setAttribute(key, attributes[key])
+export function create (type, attributes, children) {
+    let newElement = document.createElement(type);
+
+    for (let key in attributes) {
+        if (String(key) == 'style' && typeof attributes[key] == 'object') {
+            for (let y in attributes[key]) {
+                newElement.setAttribute('style', `${y}:${attributes[key][y]}`)
+            }
+            continue;
         }
-        return newlyCreatedElement;
+        newElement.setAttribute(key, attributes[key])
     }
-    catch(err){
-        if(err instanceof TypeError){
-            console.log(err.name,err.message);
-        }
-        else{
-            throw err;
-        }
+
+    if (children == undefined) {
+        return newElement;
     }
+
+    if (children instanceof HTMLElement) {
+        return [newElement, children];
+    } else if (children instanceof Array) {
+        return [newElement, ...children];
+    }
+    return newElement;
 }
 
-export function mount(element, selector) {
-    try{
-        let whereToAppend = document.querySelectorAll(selector)[0];
-        whereToAppend.appendChild(element);
-        return whereToAppend;
+export function mount (element, selector) {
+    if (selector instanceof HTMLElement) {
+        selector.appendChild(element);
+        return selector;
     }
-    catch(err){
-        if(err instanceof TypeError){
-            console.log(err.name,"bad query");
-        }
-        else{
-            throw err;
-        }
-    }
+
+    let entryPoint = document.querySelectorAll(selector)[0];
+    entryPoint.appendChild(element);
+    return entryPoint;
+}
+
+export function createDiv (attributes, children) {
+    create('div', attributes, children)
+}
+
+export function createP (attributes, children) {
+    create('p', attributes, children)
+}
+
+export function createSpan (attributes, children) {
+    create('span', attributes, children)
+}
+
+export function createArticle (attributes, children) {
+    create('article', attributes, children)
 }

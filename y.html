@@ -21,12 +21,12 @@
         // let app=create("form",{ onsubmit:e => e.preventDefault()})
         // mount(app,'body')
 
-        // let r =create('x',{id:"o"},`create('k',{id:'kkk'},'create('y',{id:"yy"})'
-        // )`
-        // )
-        // mount(r,'body')
-        // mount(r[1],'body')
-        // mount(r[2],r[1])
+        let r =create('x',{id:"div"},create('span',{id:'kkk'},
+        )
+        )
+        mount(r[0],'body')
+        mount(r[1],'body')
+
 
 
 
